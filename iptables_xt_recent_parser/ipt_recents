@@ -27,7 +27,8 @@ from copy import copy
 import os
 import subprocess
 
-_fpath = '/proc/net/xt_recent/DEFAULT'
+_rpath = '/proc/net/xt_recent/'
+_fpath = _rpath + 'DEFAULT'
 _kernel_config_path = '/boot/config-' + subprocess.getoutput(['uname -r'])
 _datetime_format = '%Y-%m-%d %H:%M:%S'
 
@@ -302,6 +303,8 @@ if __name__ == '__main__':
 
     if args.f:
         _fpath = args.f
+        if '/' not in _fpath:
+            _fpath =  _rpath + _fpath
 
     print('Parsing file: {}'.format(_fpath))
     xt = XtRecentTable(fpath=_fpath)
