@@ -1,4 +1,23 @@
 # iptables_xt_recent_parser
+
+With simple tweak, now it shows 
+
+1. Time of 1st connections in records, it's not the earliest though, since only the last 20 will be kept.
+2. Count of the ip addrs in the table in case someone uses ```--reap``` to clean the table periodically and that's something should be known. 
+
+````
+...
+100.100.112.90, last seen: 2023-09-09 20:26:01 after 20 conns, 1st (in records): 2023-09-09 01:26:01
+100.100.32.202, last seen: 2023-09-09 21:16:01 after 20 conns, 1st (in records): 2023-09-09 02:16:00
+100.100.14.161, last seen: 2023-09-09 21:18:01 after 20 conns, 1st (in records): 2023-09-09 02:18:01
+
+Stat: 16 ip addrs in total.
+````
+
+----
+
+## Original README
+
 Used for converting jiffies from iptables xt_recent into timestamps.
 
 An example of xt_recent log can be like this, where only 2 syn connections in 20 seconds are allowed:

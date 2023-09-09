@@ -179,6 +179,7 @@ class XtRecentRow(object):
         d.oldest_pkt = jt.datetime(d.oldest_pkt)
 
         d.history = [jt.datetime(i) for i in self.history]
+        d.history.sort()
         return d
 
     def format_jiffies(self, strftime_format=_datetime_format):
@@ -197,10 +198,11 @@ class XtRecentRow(object):
         return d
 
     def __repr__(self):
-        _msg = '{}, last seen: {} after {} connections'
+        _msg = '{}, last seen: {} after {} conns, 1st (in records): {}'
         return _msg.format(self.src,
                            self.last_seen.strftime(_datetime_format),
-                           len(self.history))
+                           len(self.history),
+                           self.history[0].strftime(_datetime_format))
 
 
 class XtRecentTable(object):
@@ -237,8 +239,8 @@ class XtRecentTable(object):
                 self.xt_recent.append(row_dt)
                 if self.debug:
                     print(row_dt)
-                    for e in row_dt.history:
-                        print(r)
+                    for h in row_dt.history:
+                        print(h)
 
     def csv(self):
         self.parse()
@@ -278,6 +280,7 @@ class XtRecentTable(object):
         self.parse()
         for row in self.xt_recent:
             print(row)
+        print('\nStat:', len(self.xt_recent), 'ip addrs in total.')
 
 
 if __name__ == '__main__':
@@ -313,3 +316,4 @@ if __name__ == '__main__':
         xt.csv()
     elif args.txt:
         xt.view()
+
